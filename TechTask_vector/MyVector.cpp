@@ -33,7 +33,7 @@ MyVector& MyVector::operator=(const MyVector& right)
 		m_size = right.m_size;
 		reserve(right.m_capacity);
 	}
-	for (int i = 0; i < m_size; ++i)
+	for (unsigned i = 0; i < m_size; ++i)
 	{
 		m_data[i] = right.m_data[i];
 	}
@@ -53,13 +53,13 @@ unsigned int MyVector::size() const
 {
 	return m_size;
 }
-void MyVector::reserve(int newCapacity)
+void MyVector::reserve(unsigned newCapacity)
 {
 	if (newCapacity > m_capacity)
 	{
 		m_capacity = newCapacity;
 		int* newArr = new int[m_capacity];
-		for (int i = 0; i < m_size; ++i)
+		for (unsigned i = 0; i < m_size; ++i)
 		{
 			newArr[i] = m_data[i];
 		}
@@ -95,13 +95,13 @@ int MyVector::find(int value)
 void MyVector::resize(unsigned newSize)
 {
 	int* newArr = new int[newSize];
-	for (int i = 0; i < newSize; ++i)
+	for (unsigned i = 0; i < newSize; ++i)
 	{
 		newArr[i] = m_data[i];
 	}
 	if (m_size < newSize)
 	{
-		for (int i = m_size; i < newSize; ++i)
+		for (unsigned i = m_size; i < newSize; ++i)
 		{
 			newArr[i] = 0;
 		}
@@ -129,6 +129,18 @@ void MyVector::insert(unsigned index,int value)
 		swap(m_data[i + 1], temp);
 	}
 	m_data[index] = value;
+}
+void MyVector::insert(unsigned index, int* value, unsigned numberOfElements)
+{
+	resize(m_size + numberOfElements);
+	for (unsigned i = m_size-1; i > m_size - numberOfElements; --i)
+	{
+		swap(m_data[i], m_data[i - numberOfElements]);
+	}
+	for (unsigned i = 0; i < numberOfElements; ++i)
+	{
+		m_data[i + index] = value[i];
+	}
 }
 void MyVector::clear()
 {
